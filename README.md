@@ -21,6 +21,7 @@ A private .env file is also required in order to run the bot.
 Format it like so:
 ```env
 TOKEN=<insert_token_here>
+MONGO_DB=<insert_db_connection_link_here>
 ```
 
 
