@@ -14,6 +14,7 @@ Navigate to the bot's directory
 npm install discord.js
 npm install dotenv
 npm install mongodb
+npm install mongoose
 ```
 
 A private .env file is also required in order to run the bot.
