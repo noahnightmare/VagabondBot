@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder, time } = require("discord.js")
 
 module.exports = {
     data: new SlashCommandBuilder()
-      .setName("user")
+      .setName("profile")
       .setDescription("Get information about a user.")
       .addUserOption((option) => option
         .setName("user")
@@ -10,7 +10,7 @@ module.exports = {
         .setRequired(true)
       ),
     execute: async ({ interaction }) => {
-        // delays the bot response a little by making it "thinking"
+        // delays the bot response a little by making it "think"
         await interaction.deferReply().catch(() => {})
 
         const member = interaction.options.getMember("user")
