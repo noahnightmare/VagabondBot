@@ -69,8 +69,25 @@ async function loadEvents(client) {
     })
 }
 
+// formula to calculate XP needed to level up to the next level (dynamic scaling)
+/*
+Level	XP Needed
+1 → 2	110 XP
+2 → 3	180 XP
+3 → 4	260 XP
+4 → 5	350 XP
+5 → 6	450 XP
+etc.
+*/
+function calculateXPToLevelUp(level) {
+    return 10;
+    //return Math.floor(10 * (level ** 2) + 50 * level + 50);
+}
+
 module.exports = {
     loadFiles,
     loadEvents,
     loadCommands,
+    calculateXPToLevelUp,
 }
+

@@ -3,6 +3,8 @@ const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const mongoose = require('mongoose')
 require("dotenv").config();
 
+const DEBUG = process.env.DEBUG === 'true';
+
 // import loading functions for commands & events
 const { loadEvents, loadCommands } = require("./functions");
 
@@ -33,6 +35,11 @@ client.once("ready", async () => {
 
     console.log("Bot is online."); // Log to console internally
     client.channels.cache.get(process.env.CHANNEL).send("Bot is online!"); // Log to discord channel
+
+    if (DEBUG) {
+        console.log("⚠️ Debug mode is enabled. If you wish to disable this, change the value to false in your .env file. ⚠️"); // Log to console internally
+        client.channels.cache.get(process.env.CHANNEL).send("⚠️ Debug mode is enabled. If you wish to disable this, change the value to false in your .env file. ⚠️"); // Log to discord channel
+    }
 })
 
 client.login(process.env.TOKEN);

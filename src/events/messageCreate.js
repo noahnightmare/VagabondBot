@@ -2,6 +2,13 @@
 
 // import schemas relevant for db
 const userSchema = require('../schemas/userSchema.js')
+const { EmbedBuilder } = require("discord.js")
+const { calculateXPToLevelUp } = require("../functions");
+
+const DEBUG = process.env.DEBUG === 'true';
+
+const cooldowns = new Map()
+const COOLDOWN_TIME = 5000; // 5 seconds cooldown time to prevent spam
 
 module.exports = {
     name: "messageCreate",
@@ -11,7 +18,20 @@ module.exports = {
             return; //ends the event if the bot reads its own message
         }
 
-        user = message.author; //the user that sent the message
+        let user = message.author; //the user that sent the message
+
+        // track last time user gained xp and current time
+        const lastXPTime = cooldowns.get(user.id);
+        const currentTime = Date.now();
+
+        // check cooldown based on current time and return if user isn't eligible for xp
+        if (lastXPTime && currentTime - lastXPTime < COOLDOWN_TIME) {
+            if (DEBUG) await message.reply(`You are on cooldown. Remaining time: ${Math.ceil((COOLDOWN_TIME - (currentTime - lastXPTime)) / 1000)} seconds.`)
+            return;
+        }
+        
+        // set cooldown once message sent
+        cooldowns.set(user.id, currentTime)
 
         //find user in db matching with their ID
         let userRecord = await userSchema.findOne({ userId: user.id })
@@ -20,18 +40,39 @@ module.exports = {
         if (!userRecord) {
             userRecord = new userSchema({ 
                 userId: user.id, 
-                xp: 0 
+                xp: 0 ,
+                level: 1
             })
             await userRecord.save()
         }
 
-        //increases the user's xp by 1
-        userRecord.xp += 1
+        //increases the user's xp by a random number between 1 and 10
+        let gainedXP = Math.floor(Math.random() * 10) + 1;
+        userRecord.xp += gainedXP;
 
-        //message user's current xp
-        message.reply("Current XP: " + `${userRecord.xp}`);
+        let requiredXP = calculateXPToLevelUp(userRecord.level);
+
+        // if the user's XP exceeds threshold
+        if (userRecord.xp >= requiredXP) {
+            userRecord.level += 1; 
+            userRecord.xp -= requiredXP; // remove old xp and carry remaining over
+
+            const embed = new EmbedBuilder()
+                      .setTitle('🎉 Level Up!')
+                      .setColor('#FFD700') // change in the future(?)
+                      .setDescription(`**${user.displayName}** advanced to level **${userRecord.level}**!`)
+                      .setThumbnail(user.displayAvatarURL())
+                      .setFooter({ text: user.username, iconURL: user.displayAvatarURL() })
+
+            await message.reply({embeds: [embed]});
+        }
 
         //save to db
         await userRecord.save()
+
+        //message user's current xp
+        if (DEBUG) {
+            await message.reply("XP Updated. Current XP: " + `${userRecord.xp}`);
+        }
     },
 }
