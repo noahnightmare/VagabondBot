@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, time } = require("discord.js")
 
 // import schemas relevant for db
-const xpSchema = require('../schemas/xpSchema.js')
+const userSchema = require('../schemas/userSchema.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -26,13 +26,14 @@ module.exports = {
         }
 
         // find user in db matching with their ID
-        let userRecord = await xpSchema.findOne({ userId: user.id })
+        let userRecord = await userSchema.findOne({ userId: user.id })
 
         // if it doesn't exist for the user, create it and save it
         if (!userRecord) {
-            userRecord = new xpSchema({ 
+            userRecord = new userSchema({ 
                 userId: user.id, 
-                xp: 0 
+                xp: 0,
+                level: 1
             })
             await userRecord.save();
         }

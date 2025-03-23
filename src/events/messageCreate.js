@@ -1,7 +1,7 @@
 //listener that checks if a user sends a message
 
 // import schemas relevant for db
-const xpSchema = require('../schemas/xpSchema.js')
+const userSchema = require('../schemas/userSchema.js')
 
 module.exports = {
     name: "messageCreate",
@@ -14,11 +14,11 @@ module.exports = {
         user = message.author; //the user that sent the message
 
         //find user in db matching with their ID
-        let userRecord = await xpSchema.findOne({ userId: user.id })
+        let userRecord = await userSchema.findOne({ userId: user.id })
 
         //if it doesn't exist for the user, create it and save it
         if (!userRecord) {
-            userRecord = new xpSchema({ 
+            userRecord = new userSchema({ 
                 userId: user.id, 
                 xp: 0 
             })
