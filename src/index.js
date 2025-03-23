@@ -1,5 +1,6 @@
 // Import discord & dotenv dependencies from node_modules
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
+const mongoose = require('mongoose')
 require("dotenv").config();
 
 // import loading functions for commands & events
@@ -14,7 +15,15 @@ const client = new Client({
     ]
 })
 
-client.once("ready", () => {
+client.once("ready", async () => {
+
+    // await the connection to the database before starting up
+    await mongoose.connect(process.env.MONGO_DB, 
+        {} // options
+    )
+    .then(() => console.log('Successfully connected to MongoDB!'))
+    .catch(err => console.error('MongoDB connection error:', err));
+
     // load appropriate events and commands from the bot created in respective folders
     client.commands = new Collection()
     client.events = new Collection()
