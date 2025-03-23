@@ -3,6 +3,8 @@ const { promisify } = require("util")
 
 const readdir = promisify(fs.readdir)
 
+const shopItemSchema = require('./schemas/shopItemSchema.js')
+
 async function loadFiles(dirName) {
     // get base path of the current working directory + the custom folder (e.g. commands, events)
     const basePath = `${process.cwd().replace(/\\/g, "/")}/src/${dirName}`
@@ -84,10 +86,30 @@ function calculateXPToLevelUp(level) {
     //return Math.floor(10 * (level ** 2) + 50 * level + 50);
 }
 
+// add more here to add to shop
+const shopItems = [
+    { name: 'Moon', price: 100, type: 'badge', value: '🌙'},
+    { name: 'Black', price: 100, type: 'color', value: '#000000'}
+];
+
+function loadShop() {
+    // build shop in db based on structure above
+    shopItems.forEach(async item => {
+        const existingItem = await shopItemSchema.findOne({ name: item.name });
+        if (!existingItem) {
+            const newItem = new shopItemSchema(item);
+            await newItem.save();
+            console.log(`Added new item ${item.name} to shop database.`)
+        }
+    })
+}
+
 module.exports = {
     loadFiles,
     loadEvents,
     loadCommands,
     calculateXPToLevelUp,
+    loadShop,
+    shopItems,
 }
 
