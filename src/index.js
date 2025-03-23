@@ -32,7 +32,7 @@ client.once("ready", async () => {
     loadCommands(client)
 
     console.log("Bot is online."); // Log to console internally
-    client.channels.cache.get('1339231876665049188').send("Bot is online."); // Log to discord channel
+    client.channels.cache.get(process.env.CHANNEL).send("Hello world!"); // Log to discord channel
 })
 
 client.login(process.env.TOKEN);
