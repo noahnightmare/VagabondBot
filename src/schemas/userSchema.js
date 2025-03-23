@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 // blueprint of how data is structured in mongodb database
 // creating blueprint/template
-const xpSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: true,
@@ -10,8 +10,14 @@ const xpSchema = new mongoose.Schema({
     },
     xp: {
         type: Number,
+        require: true,
         default: 0
+    },
+    level: {
+        type: Number,
+        require: true,
+        default: 1
     }
 })
 
-module.exports = mongoose.model('xpTable', xpSchema, 'xpTable')
+module.exports = mongoose.model('userTable', userSchema, 'userTable')

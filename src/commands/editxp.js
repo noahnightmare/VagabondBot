@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, time } = require("discord.js")
 
 // import schemas relevant for db
-const xpSchema = require('../schemas/xpSchema.js')
+const xpSchema = require('../schemas/userSchema.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
