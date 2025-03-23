@@ -1,4 +1,7 @@
+//imports
 const { SlashCommandBuilder, EmbedBuilder, time } = require("discord.js")
+const userSchema = require('../schemas/userSchema.js')
+const { calculateXPToLevelUp } = require("../functions")
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -14,6 +17,8 @@ module.exports = {
         await interaction.deferReply().catch(() => {})
 
         const member = interaction.options.getMember("user")
+        let userRecord = await userSchema.findOne({ userId: member.id }) //the user's record, located in the database
+        let requiredXP = calculateXPToLevelUp(userRecord.level) //the amount of xp the user needs to level up
 
         const embed = new EmbedBuilder()
           .setTitle(member.displayName)
@@ -21,14 +26,19 @@ module.exports = {
           .setThumbnail(member.displayAvatarURL())
           .addFields(
             {
-                name: "When the user joined Discord",
-                value: time(member.user.createdAt),
-                inline: true,
+              name: "Level",
+              value: `${userRecord.level}`,
+              inline: true,
             },
             {
-                name: "When the user joined this server",
-                value: time(member.joinedAt),
-                inline: true,
+              name: "XP",
+              value: `${userRecord.xp + " / " + calculateXPToLevelUp(userRecord.level)}`,
+              inline: true
+            },
+            {
+              name: "Number of coins",
+              value: `${userRecord.coins}`,
+              inline: true
             }
           )
           .setFooter({ text: member.user.tag, iconURL: member.displayAvatarURL() })
