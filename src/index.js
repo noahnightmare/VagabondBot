@@ -1,4 +1,4 @@
-// Import discord & dotenv dependencies from node_modules
+// Import dependencies from node_modules
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const mongoose = require('mongoose')
 require("dotenv").config();
@@ -31,7 +31,7 @@ client.once("ready", async () => {
     loadEvents(client)
     loadCommands(client)
 
-    console.log("Hello world!"); // Log to console internally
+    console.log("Bot is online."); // Log to console internally
     client.channels.cache.get(process.env.CHANNEL).send("Hello world!"); // Log to discord channel
 })
 
