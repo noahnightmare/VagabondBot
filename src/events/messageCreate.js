@@ -19,6 +19,7 @@ module.exports = {
         }
 
         let user = message.author; //the user that sent the message
+        let member = message.guild.members.cache.get(user.id); // get the user's member object to access guild info
 
         // track last time user gained xp and current time
         const lastXPTime = cooldowns.get(user.id);
@@ -53,16 +54,22 @@ module.exports = {
         let requiredXP = calculateXPToLevelUp(userRecord.level);
 
         // if the user's XP exceeds threshold
+        // LEVEL UP EVENT
         if (userRecord.xp >= requiredXP) {
             userRecord.level += 1; 
             userRecord.xp -= requiredXP; // remove old xp and carry remaining over
 
+            // rng between 10 and 100 for coins gained on level up
+            let coins = Math.floor(Math.random() * 100 - 10 + 1) + 10;
+
+            userRecord.coins += coins;
+
             const embed = new EmbedBuilder()
                       .setTitle('🎉 Level Up!')
-                      .setColor('#FFD700') // change in the future(?)
-                      .setDescription(`**${user.displayName}** advanced to level **${userRecord.level}**!`)
-                      .setThumbnail(user.displayAvatarURL())
-                      .setFooter({ text: user.username, iconURL: user.displayAvatarURL() })
+                      .setColor(userRecord.color) // change in the future(?)
+                      .setDescription(`**${member.displayName}** advanced to level **${userRecord.level}**!`)
+                      .setThumbnail(member.displayAvatarURL())
+                      .setFooter({ text: `🪙 You gained ${coins} coins.` });
 
             await message.reply({embeds: [embed]});
         }

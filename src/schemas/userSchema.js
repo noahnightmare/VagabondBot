@@ -17,6 +17,21 @@ const userSchema = new mongoose.Schema({
         type: Number,
         require: true,
         default: 1
+    },
+    coins: {
+        type: Number,
+        require: true,
+        default: 0
+    },
+    badge: {
+        type: String,
+        require: true,
+        default: "",
+    },
+    color: {
+        type: String,
+        require: true,
+        default: "#808080",
     }
 })
 

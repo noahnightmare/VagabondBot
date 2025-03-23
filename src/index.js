@@ -6,7 +6,7 @@ require("dotenv").config();
 const DEBUG = process.env.DEBUG === 'true';
 
 // import loading functions for commands & events
-const { loadEvents, loadCommands } = require("./functions");
+const { loadEvents, loadCommands, loadShop } = require("./functions");
 
 // Create the client instance for the discord bot (with relevant permissions)
 const client = new Client({
@@ -25,6 +25,9 @@ client.once("ready", async () => {
     )
     .then(() => console.log('Successfully connected to MongoDB!'))
     .catch(err => console.error('MongoDB connection error:', err));
+
+    // add new items to shop in db if they don't exist already
+    loadShop();
 
     // load appropriate events and commands from the bot created in respective folders
     client.commands = new Collection()
