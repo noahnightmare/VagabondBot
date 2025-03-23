@@ -22,7 +22,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setTitle(member.displayName)
-          .setColor(member.displayColor)
+          .setColor(userRecord.color)
           .setThumbnail(member.displayAvatarURL())
           .addFields(
             {
