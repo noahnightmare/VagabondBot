@@ -3,7 +3,7 @@
 // import schemas relevant for db
 const userSchema = require('../schemas/userSchema.js')
 const { EmbedBuilder } = require("discord.js")
-const { calculateXPToLevelUp } = require("../functions");
+const { calculateXPToLevelUp, getUserRecord } = require("../functions");
 
 const DEBUG = process.env.DEBUG === 'true';
 
@@ -35,17 +35,7 @@ module.exports = {
         cooldowns.set(user.id, currentTime)
 
         //find user in db matching with their ID
-        let userRecord = await userSchema.findOne({ userId: user.id })
-
-        //if it doesn't exist for the user, create it and save it
-        if (!userRecord) {
-            userRecord = new userSchema({ 
-                userId: user.id, 
-                xp: 0 ,
-                level: 1
-            })
-            await userRecord.save()
-        }
+        let userRecord = getUserRecord(user.id);
 
         //increases the user's xp by a random number between 1 and 10
         let gainedXP = Math.floor(Math.random() * 10) + 1;
@@ -66,7 +56,7 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                       .setTitle('🎉 Level Up!')
-                      .setColor(userRecord.color) // change in the future(?)
+                      .setColor(userRecord.color)
                       .setDescription(`**${member.displayName}** advanced to level **${userRecord.level}**!`)
                       .setThumbnail(member.displayAvatarURL())
                       .setFooter({ text: `🪙 You gained ${coins} coins.` });

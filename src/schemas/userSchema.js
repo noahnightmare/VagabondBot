@@ -10,28 +10,33 @@ const userSchema = new mongoose.Schema({
     },
     xp: {
         type: Number,
-        require: true,
+        required: true,
         default: 0
     },
     level: {
         type: Number,
-        require: true,
+        required: true,
         default: 1
     },
     coins: {
         type: Number,
-        require: true,
+        required: true,
         default: 0
     },
     badge: {
         type: String,
-        require: true,
+        required: true,
         default: "",
     },
     color: {
         type: String,
-        require: true,
+        required: true,
         default: "#808080",
+    },
+    inventory: {
+        type: [String], // array of unique strings identifying which objects the user has
+        required: true,
+        default: []
     }
 })
 

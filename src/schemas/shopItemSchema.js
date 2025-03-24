@@ -14,7 +14,8 @@ const shopItemSchema = new mongoose.Schema({
     },
     type: { // "badge" or "color"
         type: String,
-        require: true
+        require: true,
+        enum: ["badge", "color"]
     },
     value: { // This will store the emoji for badge, or hex code for color
         type: String,

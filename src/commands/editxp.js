@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, time } = require("discord.js")
 
-// import schemas relevant for db
-const xpSchema = require('../schemas/userSchema.js')
+const { getUserRecord } = require("../functions");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -32,17 +31,7 @@ module.exports = {
              user = interaction.member;
         }
 
-        // find user in db matching with their ID
-        let userRecord = await xpSchema.findOne({ userId: user.id })
-
-        // if it doesn't exist for the user, create it and save it
-        if (!userRecord) {
-            userRecord = new xpSchema({ 
-                userId: user.id, 
-                xp: 0 
-            })
-            await userRecord.save()
-        }
+        let userRecord = await getUserRecord(user.id);
 
         // append edited xp
         userRecord.xp += interaction.options.getInteger("xp")

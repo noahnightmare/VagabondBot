@@ -4,6 +4,7 @@ const { promisify } = require("util")
 const readdir = promisify(fs.readdir)
 
 const shopItemSchema = require('./schemas/shopItemSchema.js')
+const userSchema = require('./schemas/userSchema.js')
 
 async function loadFiles(dirName) {
     // get base path of the current working directory + the custom folder (e.g. commands, events)
@@ -104,12 +105,30 @@ function loadShop() {
     })
 }
 
+async function getUserRecord(id) {
+    // global function to get user record based on id
+
+    // find user in db matching with their ID
+    let userRecord = await userSchema.findOne({ userId: id });
+
+    // if it doesn't exist for the user, create it and save it
+    if (!userRecord) {
+        userRecord = new userSchema({ 
+            userId: id
+        })
+        await userRecord.save();
+    }
+
+    return userRecord;
+}
+
 module.exports = {
     loadFiles,
     loadEvents,
     loadCommands,
     calculateXPToLevelUp,
-    loadShop,
     shopItems,
+    loadShop,
+    getUserRecord,
 }
 

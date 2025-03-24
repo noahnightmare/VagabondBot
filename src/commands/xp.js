@@ -3,6 +3,8 @@ const { SlashCommandBuilder, EmbedBuilder, time } = require("discord.js")
 // import schemas relevant for db
 const userSchema = require('../schemas/userSchema.js')
 
+const { getUserRecord, calculateXPToLevelUp } = require("../functions");
+
 module.exports = {
     data: new SlashCommandBuilder()
       .setName("xp")
@@ -26,29 +28,19 @@ module.exports = {
         }
 
         // find user in db matching with their ID
-        let userRecord = await userSchema.findOne({ userId: user.id })
-
-        // if it doesn't exist for the user, create it and save it
-        if (!userRecord) {
-            userRecord = new userSchema({ 
-                userId: user.id, 
-                xp: 0,
-                level: 1
-            })
-            await userRecord.save();
-        }
+        let userRecord = await getUserRecord(user.id);
 
         const embed = new EmbedBuilder()
-          .setTitle(user.displayName)
-          .setColor(user.displayColor)
+        .setTitle(`${user.displayName} ${userRecord.badge}`)
+          .setColor(userRecord.color)
           .setThumbnail(user.displayAvatarURL())
           .addFields(
             {
-                name: "XP",
-                value: `${userRecord.xp}` // parse as string
+                name: "🍀 XP",
+                value: `${userRecord.xp} / ${calculateXPToLevelUp(userRecord.level)}` // parse as string
             }
           )
-          .setFooter({ text: user.user.tag, iconURL: user.displayAvatarURL() })
+          .setFooter({ text: `${user.user.tag}'s experience`, iconURL: user.displayAvatarURL() })
         
         // edit reply is used here because of the defer reply at the top (delaying msg) otherwise use reply
         interaction.editReply({ embeds: [embed] })
