@@ -10,7 +10,10 @@ module.exports = {
         .setRequired(false)
         // We can add other commands choices here
         .addChoices(
+            { name: "buy", value: "buy" },
             { name: "profile", value: "profile" },
+            { name: "shop", value: "shop" },
+            { name: "xp", value: "xp" },
         )
       ),
 
@@ -28,16 +31,46 @@ module.exports = {
             embed.addFields(
                 {
                     name: "Commands",
-                    value: `/help: Lists and explains commands
-                            /profile: Gets information about a user`,
+                    value: `\`\`/buy\`\`: Purchase items from the shop
+                            \`\`/help\`\`: Lists and explains commands
+                            \`\`/profile\`\`: Displays information about a user
+                            \`\`/shop\`\`: Shop with profile cosmetics
+                            \`\`/xp\`\`: Displays the xp value of a user`,
                 }
             )
         } else { // If they specified a command, it explains that solely
-            if (option.value == "profile") {
+            if (option.value == "buy") {
+                embed.addFields(
+                    {
+                        name: "Buy Command",
+                        value: `Used to buy a cosmetic when using
+                                the shop.`,
+                    }
+                )
+            } else if (option.value == "profile") {
                 embed.addFields(
                     {
                         name: "Profile Command",
-                        value: `Gets information about a user`,
+                        value: `Gets information about yourself or
+                                another user. Any badges or such
+                                cosmetics from the shop appears here.`,
+                    }
+                )
+            } else if (option.value == "shop") {
+                embed.addFields(
+                    {
+                        name: "Shop Command",
+                        value: `You can purchase cosmetics here
+                                using coins. You can get coins from
+                                leveling up your profile.`,
+                    }
+                )
+            } else if (option.value == "xp") {
+                embed.addFields(
+                    {
+                        name: "XP Command",
+                        value: `Gets the experience value of yourself
+                                or another user.`,
                     }
                 )
             }
