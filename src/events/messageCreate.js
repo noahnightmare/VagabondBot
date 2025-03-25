@@ -35,7 +35,7 @@ module.exports = {
         cooldowns.set(user.id, currentTime)
 
         //find user in db matching with their ID
-        let userRecord = getUserRecord(user.id);
+        let userRecord = await getUserRecord(user.id);
 
         //increases the user's xp by a random number between 1 and 10
         let gainedXP = Math.floor(Math.random() * 10) + 1;
@@ -50,14 +50,14 @@ module.exports = {
             userRecord.xp -= requiredXP; // remove old xp and carry remaining over
 
             // rng between 10 and 100 for coins gained on level up
-            let coins = Math.floor(Math.random() * 100 - 10 + 1) + 10;
+            let coins = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
 
             userRecord.coins += coins;
 
             const embed = new EmbedBuilder()
                       .setTitle('🎉 Level Up!')
                       .setColor(userRecord.color)
-                      .setDescription(`**${member.displayName}** advanced to level **${userRecord.level}**!`)
+                      .setDescription(`**${member.displayName} ${userRecord.badge}** advanced to level **${userRecord.level}**!`)
                       .setThumbnail(member.displayAvatarURL())
                       .setFooter({ text: `🪙 You gained ${coins} coins.` });
 

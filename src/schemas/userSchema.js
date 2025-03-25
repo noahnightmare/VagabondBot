@@ -26,12 +26,12 @@ const userSchema = new mongoose.Schema({
     badge: {
         type: String,
         required: true,
-        default: "",
+        default: " "
     },
     color: {
         type: String,
         required: true,
-        default: "#808080",
+        default: "#808080"
     },
     inventory: {
         type: [String], // array of unique strings identifying which objects the user has
