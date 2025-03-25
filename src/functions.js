@@ -93,16 +93,35 @@ const shopItems = [
     { name: 'Black', price: 100, type: 'color', value: '#000000'}
 ];
 
-function loadShop() {
-    // build shop in db based on structure above
-    shopItems.forEach(async item => {
-        const existingItem = await shopItemSchema.findOne({ name: item.name });
-        if (!existingItem) {
-            const newItem = new shopItemSchema(item);
-            await newItem.save();
-            console.log(`Added new item ${item.name} to shop database.`)
+async function loadShop() {
+    try {
+        const existingItems = await shopItemSchema.find({}, 'name');
+
+        // compare these 2 mapped arrays and remove whatever doesn't match
+        const existingNames = existingItems.map(item => item.name);
+        const newNames = shopItems.map(item => item.name);
+
+        const itemsToRemove = existingNames.filter(name => !newNames.includes(name));
+
+        if (itemsToRemove.length > 0) {
+            await shopItemSchema.deleteMany({ name: { $in: itemsToRemove } });
+            console.log(`Removed old items ${itemsToRemove.join(', ')} from shop database.`);
         }
-    })
+
+        // build shop in db based on structure above
+        for (const item of shopItems) {
+            const existingItem = await shopItemSchema.findOne({ name: item.name });
+            if (!existingItem) {
+                const newItem = new shopItemSchema(item);
+                await newItem.save();
+                console.log(`Added new item ${item.name} to shop database.`)
+            }
+        }
+        console.log("Successfully loaded shop.");
+    }
+    catch(error) {
+        console.error("Error loading shop: ", error);
+    }
 }
 
 async function getUserRecord(id) {
