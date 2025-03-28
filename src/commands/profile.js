@@ -30,6 +30,11 @@ module.exports = {
         let userRecord = await getUserRecord(user.id); //the user's record, located in the database
         let requiredXP = calculateXPToLevelUp(userRecord.level) //the amount of xp the user needs to level up
 
+        let inventory = "";
+        userRecord.inventory.forEach(item => {
+            inventory += `**${item.name}** - ${item.value}`;
+        });
+
         const embed = new EmbedBuilder()
           .setTitle(`${user.displayName} ${userRecord.badge}`)
           .setColor(userRecord.color)
@@ -51,6 +56,11 @@ module.exports = {
               value: `${userRecord.xp + " / " + calculateXPToLevelUp(userRecord.level)}`,
               inline: false
             },
+            {
+              name: "🎒 Inventory",
+              value: `${inventory.join(', ')}` || "Empty",
+              inline: false
+            }
           )
           .setFooter({ text: `${user.user.tag}'s profile`, iconURL: user.displayAvatarURL() })
         
