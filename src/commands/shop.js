@@ -19,7 +19,7 @@ module.exports = {
         let shopDetails = '';
 
         shopItems.forEach(item => {
-            shopDetails += `**${item.name}** - ${item.price} coins\nType: ${item.type}\n\n`;
+            shopDetails += `**${item.name}** ${item.type} - ${item.value}\n🪙 ${item.price}\n\n`;
         });
 
         embed.addFields({

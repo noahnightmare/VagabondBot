@@ -90,7 +90,8 @@ function calculateXPToLevelUp(level) {
 // add more here to add to shop
 const shopItems = [
     { name: 'Moon', price: 100, type: 'badge', value: '🌙'},
-    { name: 'Black', price: 100, type: 'color', value: '#000000'}
+    { name: 'Black', price: 100, type: 'color', value: '#000000'},
+    { name: 'Expensive', price: 10000, type: 'color', value: '#000000'}
 ];
 
 async function loadShop() {

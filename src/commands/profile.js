@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder, time } = require("discord.js")
 const userSchema = require('../schemas/userSchema.js')
 const { calculateXPToLevelUp } = require("../functions")
 
-const { getUserRecord } = require("../functions");
+const { getUserRecord, shopItems } = require("../functions");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -30,10 +30,11 @@ module.exports = {
         let userRecord = await getUserRecord(user.id); //the user's record, located in the database
         let requiredXP = calculateXPToLevelUp(userRecord.level) //the amount of xp the user needs to level up
 
-        let inventory = "";
-        userRecord.inventory.forEach(item => {
-            inventory += `**${item.name}** - ${item.value}`;
-        });
+        // build inventory by cross referencing to shop items to get values
+        let inventory = userRecord.inventory.map(itemName => {
+          let item = shopItems.find(shopItem => shopItem.name === itemName);
+          return item ? `**${item.name}** - ${item.value}` : `**${itemName}**`; // fallback incase value isn't accessible (won't ever happen)
+        }).join(', ') || "Empty";
 
         const embed = new EmbedBuilder()
           .setTitle(`${user.displayName} ${userRecord.badge}`)
@@ -58,7 +59,7 @@ module.exports = {
             },
             {
               name: "🎒 Inventory",
-              value: `${inventory.join(', ')}` || "Empty",
+              value: `${inventory}`,
               inline: false
             }
           )

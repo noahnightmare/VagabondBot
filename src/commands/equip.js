@@ -46,6 +46,6 @@ module.exports = {
         userRecord.save()
         
         // edit reply is used here because of the defer reply at the top (delaying msg) otherwise use reply
-        interaction.editReply(`Reset your ${interaction.options.getString("type")} to default.`)
+        interaction.editReply(`✅ Equipped item ${itemToEquip.name} ${itemToEquip.value} to your profile!`)
     },
 }
