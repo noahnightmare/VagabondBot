@@ -89,8 +89,34 @@ function calculateXPToLevelUp(level) {
 
 // add more here to add to shop
 const shopItems = [
+    //Badges
     { name: 'Moon', price: 100, type: 'badge', value: '🌙'},
+    { name: 'Skull', price: 100, type: 'badge', value: '💀'},
+    { name: 'Cat', price: 100, type: 'badge', value: '😺'},
+    { name: 'Cookie', price: 250, type: 'badge', value: '🍪'},
+    { name: 'Penguin', price: 250, type: 'badge', value: '🐧'},
+    { name: 'Alien', price: 250, type: 'badge', value: '👾'},
+    { name: 'Heart', price: 500, type: 'badge', value: '💖'},
+    { name: 'Rabbit', price: 500, type: 'badge', value: '🐇'},
+    { name: 'Dove', price: 750, type: 'badge', value: '🕊️'},
+    { name: 'Black Heart', price: 750, type: 'badge', value: '🖤'},
+    { name: 'Poop', price: 1000, type: 'badge', value: '💩'},
+    
+    //Colours
     { name: 'Black', price: 100, type: 'color', value: '#000000'},
+    { name: 'White', price: 100, type: 'color', value: '#ffffff'},
+    { name: 'Red', price: 100, type: 'color', value: '#ff0000'},
+    { name: 'Orange', price: 100, type: 'color', value: '#ffa500'},
+    { name: 'Yellow', price: 100, type: 'color', value: '#ffff00'},
+    { name: 'Green', price: 100, type: 'color', value: '#008000'},
+    { name: 'Blue', price: 100, type: 'color', value: '#0000ff'},
+    { name: 'Pink', price: 100, type: 'color', value: '#ffc0cb'},
+    { name: 'Purple', price: 100, type: 'color', value: '#800080'},
+    { name: 'Turquoise', price: 500, type: 'color', value: '#40e0d0'},
+    { name: 'Maroon', price: 500, type: 'color', value: '#800000'},
+    { name: 'Rose Gold', price: 750, type: 'color', value: '#B76E79'},
+    
+    //Test Items
     { name: 'Expensive', price: 10000, type: 'color', value: '#000000'}
 ];
 
