@@ -11,6 +11,8 @@ module.exports = {
         // We can add other commands choices here
         .addChoices(
             { name: "buy", value: "buy" },
+            { name: "clear", value: "clear" },
+            { name: "equip", value: "equip" },
             { name: "profile", value: "profile" },
             { name: "shop", value: "shop" },
             { name: "xp", value: "xp" },
@@ -32,6 +34,8 @@ module.exports = {
                 {
                     name: "Commands",
                     value: `\`\`/buy\`\`: Purchase items from the shop
+                            \`\`/clear\`\`: Remove your badge or color
+                            \`\`/equip\`\`: Equip your badge or color
                             \`\`/help\`\`: Lists and explains commands
                             \`\`/profile\`\`: Displays information about a user
                             \`\`/shop\`\`: Shop with profile cosmetics
@@ -47,13 +51,34 @@ module.exports = {
                                 the shop.`,
                     }
                 )
+            } else if (option.value == "clear") {
+                embed.addFields(
+                    {
+                        name: "Clear Command",
+                        value: `Removes either your badge or color
+                                from your profile. This cosmetic
+                                is not deleted, just stored in
+                                your inventory.`,
+                    }
+                )
+            } else if (option.value == "equip") {
+                embed.addFields(
+                    {
+                        name: "Equip Command",
+                        value: `Equip either your badge or color
+                                and have it appear on your profile.
+                                The cosmetic replaced is not deleted,
+                                just stored in your inventory.`,
+                    }
+                )
             } else if (option.value == "profile") {
                 embed.addFields(
                     {
                         name: "Profile Command",
                         value: `Gets information about yourself or
-                                another user. Any badges or such
-                                cosmetics from the shop appears here.`,
+                                another user. Any badges or colors
+                                that they've equipped or in their
+                                inventory appears here.`,
                     }
                 )
             } else if (option.value == "shop") {
