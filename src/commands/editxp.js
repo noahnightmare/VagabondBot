@@ -2,6 +2,8 @@ const { SlashCommandBuilder, EmbedBuilder, time } = require("discord.js")
 
 const { getUserRecord } = require("../functions");
 
+const { PermissionsBitField } = require('discord.js');
+
 module.exports = {
     data: new SlashCommandBuilder()
       .setName("editxp")
@@ -22,7 +24,9 @@ module.exports = {
         // delays the bot response a little by making it "thinking"
         await interaction.deferReply().catch(() => {})
 
-        // assign user if specified, otherwise use user that sent cmd
+        //permission check to ensure user is a server admin
+        if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
+          // assign user if specified, otherwise use user that sent cmd
         let user;
         if (interaction.options.getMember("user") != null) {
             user = interaction.options.getMember("user")
@@ -40,5 +44,10 @@ module.exports = {
         
         // edit reply is used here because of the defer reply at the top (delaying msg) otherwise use reply
         interaction.editReply(`XP edited.`)
+        }
+      else {//send relevant message if the user does not have permission
+        interaction.editReply(`You do not have permission to execute this command.`)
+      }
+        
     },
 }
