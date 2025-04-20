@@ -13,6 +13,7 @@ module.exports = {
             { name: "buy", value: "buy" },
             { name: "clear", value: "clear" },
             { name: "equip", value: "equip" },
+            { name: "giftcoins", value: "giftcoins" },
             { name: "giftxp", value: "giftxp" },
             { name: "profile", value: "profile" },
             { name: "shop", value: "shop" },
@@ -37,6 +38,7 @@ module.exports = {
                     value: `\`\`/buy\`\`: Purchase items from the shop
                             \`\`/clear\`\`: Remove your badge or color
                             \`\`/equip\`\`: Equip your badge or color
+                            \`\`/giftcoins\`\`: Gift a user coins
                             \`\`/giftxp\`\`: Gift a user xp
                             \`\`/help\`\`: Lists and explains commands
                             \`\`/profile\`\`: Displays information about a user
@@ -73,6 +75,16 @@ module.exports = {
                                 just stored in your inventory.`,
                     }
                 )
+            } else if (option.value == "giftcoins") {
+                embed.addFields(
+                    {
+                        name: "Gift Coins Command",
+                        value: `This is a command only administrators
+                                can use. They can gift a user coins.
+                                This is intended as a reward such as
+                                server contest winner or giveaways.`,
+                    }
+                )
             } else if (option.value == "giftxp") {
                 embed.addFields(
                     {
@@ -80,7 +92,7 @@ module.exports = {
                         value: `This is a command only administrators
                                 can use. They can gift a user xp. This
                                 is intended as a reward such as
-                                server contests or giveaways.`,
+                                server contest winner or giveaways.`,
                     }
                 )
             } else if (option.value == "profile") {

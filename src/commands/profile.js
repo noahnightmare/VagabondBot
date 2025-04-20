@@ -54,7 +54,7 @@ module.exports = {
             },
             {
               name: "🍀 XP",
-              value: `${userRecord.xp + " / " + calculateXPToLevelUp(userRecord.level)}`,
+              value: `${userRecord.xp + " / " + requiredXP}`,
               inline: false
             },
             {
