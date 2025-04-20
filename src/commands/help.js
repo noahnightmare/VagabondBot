@@ -13,6 +13,7 @@ module.exports = {
             { name: "buy", value: "buy" },
             { name: "clear", value: "clear" },
             { name: "equip", value: "equip" },
+            { name: "giftxp", value: "giftxp" },
             { name: "profile", value: "profile" },
             { name: "shop", value: "shop" },
             { name: "xp", value: "xp" },
@@ -36,6 +37,7 @@ module.exports = {
                     value: `\`\`/buy\`\`: Purchase items from the shop
                             \`\`/clear\`\`: Remove your badge or color
                             \`\`/equip\`\`: Equip your badge or color
+                            \`\`/giftxp\`\`: Gift a user xp
                             \`\`/help\`\`: Lists and explains commands
                             \`\`/profile\`\`: Displays information about a user
                             \`\`/shop\`\`: Shop with profile cosmetics
@@ -69,6 +71,16 @@ module.exports = {
                                 and have it appear on your profile.
                                 The cosmetic replaced is not deleted,
                                 just stored in your inventory.`,
+                    }
+                )
+            } else if (option.value == "giftxp") {
+                embed.addFields(
+                    {
+                        name: "Gift XP Command",
+                        value: `This is a command only administrators
+                                can use. They can gift a user xp. This
+                                is intended as a reward such as
+                                server contests or giveaways.`,
                     }
                 )
             } else if (option.value == "profile") {

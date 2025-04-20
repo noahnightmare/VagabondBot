@@ -24,12 +24,10 @@ module.exports = {
         // delays the bot response a little by making it "think"
         await interaction.deferReply().catch(() => {})
 
-        
-
         //permission check to ensure user is a server admin
         let user = interaction.member; //the user that sent the command
         //if the user has the permision to manage messages
-        if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
+        if (user.permissions.has(PermissionsBitField.Flags.Administrator)) {
           //if the XP value is not negative
           if (Math.sign(interaction.options.getInteger("xp")) != -1) {
             //ensures the user does not try to gift themselves XP
